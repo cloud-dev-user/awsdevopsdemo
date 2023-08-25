@@ -1,0 +1,91 @@
+Creating a runbook for AWS Inspector involves documenting the steps to set up and run security assessments on your AWS resources. AWS Inspector helps you identify security vulnerabilities and compliance issues in your environment. Here's a basic runbook to get you started with AWS Inspector, along with an example:
+
+**AWS Inspector Runbook**
+
+**Objective:** Run security assessments using AWS Inspector to identify vulnerabilities and compliance issues in your AWS resources.
+
+**Prerequisites:**
+1. AWS account with necessary permissions to use AWS Inspector.
+2. AWS Inspector agent installed on the target EC2 instances (if applicable).
+
+**Steps:**
+
+**Step 1: Set Up an Assessment Target**
+
+1.1. Log in to your AWS Management Console.
+
+1.2. Navigate to the AWS Inspector console.
+
+1.3. Choose "Assessment targets" in the left navigation pane.
+
+1.4. Click the "Create assessment target" button.
+
+1.5. Provide a name and optional description for the target.
+
+1.6. Choose the EC2 instances or tags that you want to include as assessment targets.
+
+1.7. Click "Create" to save the assessment target.
+
+**Step 2: Create an Assessment Template**
+
+2.1. In the AWS Inspector console, choose "Assessment templates" in the left navigation pane.
+
+2.2. Click the "Create assessment template" button.
+
+2.3. Provide a name and optional description for the assessment template.
+
+2.4. Select the assessment target created in Step 1.
+
+2.5. Choose the rules packages you want to include in the assessment. These packages define the checks AWS Inspector performs.
+
+2.6. Configure the assessment schedule and duration.
+
+2.7. Click "Create" to create the assessment template.
+
+**Step 3: Start an Assessment Run**
+
+3.1. In the AWS Inspector console, choose "Assessment runs" in the left navigation pane.
+
+3.2. Click the "Start new run" button.
+
+3.3. Select the assessment template created in Step 2.
+
+3.4. Optionally, provide a name and description for the assessment run.
+
+3.5. Click "Start run" to begin the assessment.
+
+**Step 4: View Assessment Results**
+
+4.1. Monitor the assessment progress in the AWS Inspector console.
+
+4.2. Once the assessment run is complete, click on the assessment run to view the results.
+
+4.3. Review the findings, including vulnerabilities and compliance issues.
+
+4.4. Take necessary actions to address the identified issues.
+
+**Example:**
+
+Let's say you want to run an assessment on a group of EC2 instances named "Web Servers" to check for vulnerabilities and compliance with the CIS AWS Foundations Benchmark. Here's how you would create an example runbook:
+
+**Assessment Target:**
+- Name: Web Servers
+- Description: Group of web application servers
+- EC2 Instances: [EC2-Instance-1, EC2-Instance-2, EC2-Instance-3]
+
+**Assessment Template:**
+- Name: Web Server Assessment
+- Description: Assess web server security
+- Assessment Target: Web Servers
+- Rules Packages: [CIS AWS Foundations Benchmark]
+- Schedule: Weekly on Mondays at 2:00 AM UTC
+- Duration: 2 hours
+
+**Assessment Run:**
+- Name: Web Server Assessment Run (August 25, 2023)
+- Assessment Template: Web Server Assessment
+
+**Results:**
+- View the findings and take action to resolve vulnerabilities and ensure compliance with the CIS AWS Foundations Benchmark.
+
+Remember to adjust the details in the runbook to match your specific environment and requirements. AWS Inspector can help you maintain the security and compliance of your AWS resources by regularly assessing them for issues.
