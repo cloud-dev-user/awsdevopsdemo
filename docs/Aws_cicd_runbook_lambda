@@ -1,0 +1,89 @@
+Creating a CI/CD (Continuous Integration/Continuous Deployment) pipeline using AWS Lambda and API Gateway involves automating the process of deploying code changes to a serverless environment. Below is a runbook to guide you through setting up a simple CI/CD pipeline using AWS Lambda and API Gateway.
+
+**CI/CD Pipeline Runbook with AWS Lambda and API Gateway**
+
+**Objective:** Set up a CI/CD pipeline that deploys code changes to an AWS Lambda function through an API Gateway.
+
+**Prerequisites:**
+1. An AWS account with appropriate permissions.
+2. AWS CLI and AWS SAM CLI installed and configured.
+
+**Steps:**
+
+**Step 1: Create the AWS Lambda Function**
+
+1.1. Develop your AWS Lambda function code. Ensure it's ready for deployment.
+
+1.2. Package your Lambda code and dependencies into a ZIP file.
+
+1.3. Use AWS CLI or AWS SAM CLI to create the Lambda function, specifying the runtime and code package.
+
+```bash
+aws lambda create-function \
+  --function-name MyLambdaFunction \
+  --runtime python3.8 \
+  --role arn:aws:iam::123456789012:role/lambda-role \
+  --handler lambda_function.handler \
+  --zip-file fileb://my-lambda-code.zip
+```
+
+**Step 2: Create an API Gateway**
+
+2.1. Create a new REST API in the API Gateway console.
+
+2.2. Define your API's resources and methods. For example, create a `/deploy` resource with a `POST` method.
+
+2.3. Create a new Lambda integration for the `POST` method, linking it to your Lambda function.
+
+2.4. Deploy the API to a stage (e.g., "production").
+
+**Step 3: Set Up the CI/CD Pipeline**
+
+3.1. Choose a CI/CD service of your choice (e.g., AWS CodePipeline, Jenkins, CircleCI, GitHub Actions) and configure it to monitor your source code repository (e.g., GitHub, AWS CodeCommit).
+
+3.2. Create a CI/CD pipeline with stages that match your workflow, such as:
+
+   - Source: Retrieve source code from your repository.
+   - Build: Build and package your Lambda function code (if necessary).
+   - Deploy: Deploy code changes to your Lambda function using AWS Lambda API commands (aws lambda update-function-code).
+
+**Step 4: Automate the Deployment**
+
+4.1. In your CI/CD pipeline, configure the deployment stage to invoke an AWS Lambda function that updates your API Gateway deployment.
+
+4.2. Create a new Lambda function (e.g., "APIGatewayDeploymentFunction") with appropriate permissions to deploy your API Gateway.
+
+4.3. Use AWS CLI or SDK to update the API Gateway deployment from your Lambda function:
+
+```python
+import boto3
+
+def lambda_handler(event, context):
+    apigateway = boto3.client('apigateway')
+    rest_api_id = 'your_rest_api_id'
+    stage_name = 'your_stage_name'
+    
+    response = apigateway.create_deployment(
+        restApiId=rest_api_id,
+        stageName=stage_name
+    )
+    
+    return {
+        'statusCode': 200,
+        'body': 'API Gateway deployment successful.'
+    }
+```
+
+**Step 5: Test the CI/CD Pipeline**
+
+5.1. Make code changes to your source code repository.
+
+5.2. Trigger your CI/CD pipeline. This should automatically build, test, and deploy your Lambda function code changes and update the API Gateway.
+
+**Step 6: Monitor and Troubleshoot**
+
+6.1. Monitor the pipeline and Lambda function execution for any issues.
+
+6.2. Set up proper logging and error handling in your Lambda function for troubleshooting.
+
+This runbook provides a basic framework for setting up a CI/CD pipeline using AWS Lambda and API Gateway. You can further enhance it by adding testing, validation, and approval stages as needed for your specific application and organization's requirements.
